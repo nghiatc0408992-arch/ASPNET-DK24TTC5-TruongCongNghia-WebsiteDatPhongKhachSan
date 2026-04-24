@@ -1,0 +1,68 @@
+﻿@model IEnumerable<QLDatPhong.Models.RoomType>
+
+@{
+    ViewBag.Title = "Trang chủ - Đặt phòng Khách sạn";
+}
+
+<div class="jumbotron text-center" style="margin-top: 20px; background-color: #e9ecef;">
+    <h2>Chào mừng đến với Khách sạn của chúng tôi</h2>
+    <p class="lead">Trải nghiệm dịch vụ lưu trú tuyệt vời nhất</p>
+
+    <div class="well" style="max-width: 600px; margin: 0 auto; background-color: #fff;">
+        <form action="/Home/Search" method="get" class="form-inline">
+            <div class="form-group">
+                <label for="checkIn">Nhận phòng: </label>
+                <input type="date" class="form-control" id="checkIn" name="checkIn" required>
+            </div>
+            <div class="form-group" style="margin-left: 10px;">
+                <label for="checkOut">Trả phòng: </label>
+                <input type="date" class="form-control" id="checkOut" name="checkOut" required>
+            </div>
+            <button type="submit" class="btn btn-primary" style="margin-left: 15px;">Tìm phòng</button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h3 style="margin-bottom: 30px;">Các Loại Phòng Nổi Bật</h3>
+    </div>
+
+    @if (Model != null && Model.Any())
+    {
+        foreach (var item in Model)
+        {
+            <div class="col-md-4">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <h4 class="panel-title text-center" style="font-weight: bold; font-size: 18px;">
+                            @item.TypeName
+                        </h4>
+                    </div>
+                    <div class="panel-body">
+                        <p style="height: 50px; overflow: hidden;" title="@item.Description">
+                            @item.Description
+                        </p>
+                        <hr />
+                        <ul class="list-unstyled">
+                            <li><strong>Sức chứa:</strong> @item.MaxGuests người</li>
+                            <li>
+                                <strong>Giá:</strong>
+                                <span class="text-danger" style="font-size: 16px; font-weight: bold;">
+                                    @item.BasePrice.ToString("N0") VNĐ
+                                </span>/đêm
+                            </li>
+                        </ul>
+                        <button class="btn btn-success btn-block" style="margin-top:15px;">Đặt ngay</button>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="col-md-12 text-center text-muted">
+            <p>Hiện chưa có thông tin loại phòng nào.</p>
+        </div>
+    }
+</div>

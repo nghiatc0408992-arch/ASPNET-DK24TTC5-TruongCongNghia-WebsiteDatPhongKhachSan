@@ -1,0 +1,66 @@
+﻿@model IEnumerable<QLDatPhong.Models.RoomType>
+
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+}
+
+<div class="container" style="margin-top: 30px;">
+    <h2>Kết quả tìm kiếm phòng</h2>
+
+    @if (ViewBag.ErrorMessage != null)
+    {
+        <div class="alert alert-danger">
+            <strong>Lỗi!</strong> @ViewBag.ErrorMessage
+        </div>
+        <a href="/" class="btn btn-default">Quay lại trang chủ</a>
+    }
+    else
+    {
+        <div class="alert alert-info">
+            Bạn đang tìm phòng từ ngày <strong>@ViewBag.CheckIn</strong> đến <strong>@ViewBag.CheckOut</strong>.
+            Chúng tôi tìm thấy <strong>@ViewBag.TotalAvailable</strong> phòng trống phù hợp.
+        </div>
+
+        <div class="row">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="panel panel-success">
+                            <div class="panel-heading">
+                                <h4 class="panel-title text-center" style="font-weight: bold;">@item.TypeName</h4>
+                            </div>
+                            <div class="panel-body">
+                                <p style="height: 50px; overflow: hidden;">@item.Description</p>
+                                <hr />
+                                <ul class="list-unstyled">
+                                    <li><strong>Sức chứa:</strong> @item.MaxGuests người</li>
+                                    <li>
+                                        <strong>Giá:</strong>
+                                        <span class="text-danger" style="font-size: 16px; font-weight: bold;">
+                                            @item.BasePrice.ToString("N0") VNĐ
+                                        </span>/đêm
+                                    </li>
+                                </ul>
+                                <a href="/Booking/Create?roomTypeId=@item.RoomTypeID&checkIn=@ViewBag.CheckIn&checkOut=@ViewBag.CheckOut"
+                                   class="btn btn-success btn-block" style="margin-top:15px;">
+                                    Chọn loại phòng này
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-md-12">
+                    <h4 class="text-warning text-center">Rất tiếc, không còn loại phòng nào trống trong giai đoạn này.</h4>
+                    <div class="text-center">
+                        <a href="/" class="btn btn-primary">Tìm ngày khác</a>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

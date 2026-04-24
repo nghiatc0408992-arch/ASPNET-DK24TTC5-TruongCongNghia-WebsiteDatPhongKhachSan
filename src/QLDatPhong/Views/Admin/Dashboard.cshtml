@@ -1,0 +1,100 @@
+﻿@model IEnumerable<QLDatPhong.Models.Booking>
+@{
+    ViewBag.Title = "Bảng điều khiển quản trị";
+}
+
+<div class="container-fluid" style="margin-top:20px;">
+    <h2 class="page-header">Tổng quan kinh doanh</h2>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3"><i class="glyphicon glyphicon-home" style="font-size:40px;"></i></div>
+                        <div class="col-xs-9 text-right">
+                            <div style="font-size:30px;">@ViewBag.TotalRooms</div>
+                            <div>Tổng số phòng</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3"><i class="glyphicon glyphicon-check" style="font-size:40px;"></i></div>
+                        <div class="col-xs-9 text-right">
+                            <div style="font-size:30px;">@ViewBag.AvailableRooms</div>
+                            <div>Phòng đang trống</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3"><i class="glyphicon glyphicon-time" style="font-size:40px;"></i></div>
+                        <div class="col-xs-9 text-right">
+                            <div style="font-size:30px;">@ViewBag.PendingBookings</div>
+                            <div>Đơn chờ duyệt</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-danger" style="background-color: #d9534f; color: white;">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3"><i class="glyphicon glyphicon-usd" style="font-size:40px;"></i></div>
+                        <div class="col-xs-9 text-right">
+                            <div style="font-size:24px; font-weight:bold;">@ViewBag.TotalRevenue.ToString("N0")</div>
+                            <div>Doanh thu (VNĐ)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" style="margin-top:20px;">
+        <div class="panel-heading"><strong>Đơn đặt phòng gần đây</strong></div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>Ngày Check-in</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>#@item.BookingID</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.CheckInDate.ToShortDateString()</td>
+                            <td>@item.TotalAmount.ToString("N0")</td>
+                            <td>
+                                @if (item.BookingStatus == 0)
+                                {<span class="label label-warning">Chờ duyệt</span> }
+                                else if (item.BookingStatus == 2)
+                                { <span class="label label-primary">Hoàn thành</span>}
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-right">
+                <a href="/Booking/Index">Xem tất cả đơn hàng <i class="glyphicon glyphicon-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<QLDatPhong.Models.Booking>
+
+@{
+    ViewBag.Title = "Quản lý Đơn đặt phòng";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Đảm bảo dùng đúng Layout admin của bạn
+}
+
+<div class="container-fluid" style="margin-top:20px;">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><strong>DANH SÁCH ĐƠN ĐẶT PHÒNG</strong></h3>
+        </div>
+        <div class="panel-body">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr class="bg-primary">
+                        <th>Mã đơn</th>
+                        <th>Khách hàng</th>
+                        <th>SĐT</th>
+                        <th>Check-in</th>
+                        <th>Check-out</th>
+                        <th>Tổng tiền</th>
+                        <th>Trạng thái</th>
+                        <th>Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>#@item.BookingID</td>
+                            <td>@item.CustomerName</td>
+                            <td>@item.CustomerPhone</td>
+                            <td>@item.CheckInDate.ToShortDateString()</td>
+                            <td>@item.CheckOutDate.ToShortDateString()</td>
+                            <td>@item.TotalAmount.ToString("N0") VNĐ</td>
+                            <td>
+                                @if (item.BookingStatus == 0)
+                                {<span class="label label-warning">Chờ duyệt</span> }
+                                else if (item.BookingStatus == 1)
+                                { <span class="label label-success">Đã xác nhận</span> }
+                                else if (item.BookingStatus == 2)
+                                { <span class="label label-info">Hoàn thành</span> }
+                                else
+                                { <span class="label label-danger">Đã hủy</span>}
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("UpdateStatus", "Booking", FormMethod.Post, new { @style = "display:inline;" }))
+                                {
+                                    <input type="hidden" name="id" value="@item.BookingID" />
+                                    if (item.BookingStatus == 0)
+                                    {
+                                        <button name="status" value="1" class="btn btn-xs btn-success">Xác nhận</button>
+                                        <button name="status" value="3" class="btn btn-xs btn-danger">Hủy</button>
+                                    }
+                                    else if (item.BookingStatus == 1)
+                                    {
+                                        <button name="status" value="2" class="btn btn-xs btn-primary">Xong</button>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

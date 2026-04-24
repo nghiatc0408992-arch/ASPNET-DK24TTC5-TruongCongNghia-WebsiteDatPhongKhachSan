@@ -1,0 +1,53 @@
+﻿@model QLDatPhong.Models.Account
+
+@{
+    ViewBag.Title = "Đăng nhập hệ thống";
+    Layout = null; // Giao diện đăng nhập thường đứng độc lập, không dùng chung Layout
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Đăng nhập Quản trị</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f1f2f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .login-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h3 class="text-center" style="margin-bottom: 20px;">ĐĂNG NHẬP QUẢN TRỊ</h3>
+
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label>Tên đăng nhập</label>
+                <input type="text" name="Username" class="form-control" required autofocus />
+            </div>
+            <div class="form-group">
+                <label>Mật khẩu</label>
+                <input type="password" name="Password" class="form-control" required />
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top: 20px;">ĐĂNG NHẬP</button>
+            <a href="/" class="btn btn-default btn-block">Về trang chủ Khách sạn</a>
+        }
+    </div>
+</body>
+</html>
